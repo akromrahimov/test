@@ -2,7 +2,7 @@
 SELECT 
     COUNT(*) AS total_contacts,    -- Общее количество контактов с клиентами
     SUM(CASE WHEN y = 'yes' THEN 1 ELSE 0 END) AS conversions,    -- Количество успешно оформленных депозитов
-    ROUND(100.0 * SUM(CASE WHEN y = 'yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS conversion_rate_pct    -- Общий коэффициент конверсии (%)
+    ROUND(100.0 * SUM(CASE WHEN y = 'yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS conversion_rate_pct    -- Доля клиентов, оформивших депозит (%)
 FROM bank_full;
 
 
@@ -17,7 +17,7 @@ WITH conversion_by_job AS (
 )
 SELECT 
     job, total, conversions,     
-    ROUND(100.0 * conversions / total, 2) AS conversion_rate_job,   -- Конверсия по профессиям (%)
+    ROUND(100.0 * conversions / total, 2) AS conversion_rate_job,   -- Доля клиентов, оформивших депозит, по профессиям (%)
     RANK() OVER (ORDER BY 1.0 * conversions / total DESC) AS rank_by_conversion    -- Рейтинг профессий по конверсии
 FROM conversion_by_job
 ORDER BY conversion_rate_job DESC;     -- Сортировка по убыванию конверсии
@@ -34,8 +34,8 @@ WITH conversion_by_contact AS (
  )
  SELECT  
      contact, total, conversions,
-     ROUND(100.0 * conversions / total, 2) AS conversion_rate_contact    -- Конверсия по каналам связи (%)
-FROM conversion_by_contact
+     ROUND(100.0 * conversions / total, 2) AS conversion_rate_contact    -- Доля клиентов, оформивших депозит, по каналам связи (%)
+
 ORDER BY conversion_rate_contact DESC;    -- Сортировка по убыванию конверсии
 
 
@@ -50,7 +50,7 @@ WITH conversion_by_month AS (
  )
  SELECT  
      month, total, conversions,
-     ROUND(100.0 * conversions / total, 2) AS conversion_rate_month    -- Конверсия по месяцам (%)
+     ROUND(100.0 * conversions / total, 2) AS conversion_rate_month   -- Доля клиентов, оформивших депозит, по месяцам (%)
 FROM conversion_by_month
 ORDER BY conversion_rate_month DESC;    -- Сортировка по убыванию конверсии
 
