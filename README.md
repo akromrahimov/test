@@ -1,4 +1,5 @@
 Анализ банковских депозитов
+
 Стек: SQL * Microsoft Excel * Power BI
 
 О проекте:
