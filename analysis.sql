@@ -23,3 +23,24 @@ FROM conversion_by_job
 ORDER BY conversion_rate_pct DESC
 
 
+-- 3. Анализ эффективности каналов связи
+WITH conversion_by_contact AS (
+    SELECT 
+        contact,
+        COUNT(*) AS total,    -- Общее количество контактов по каждому каналу связи
+        SUM(CASE WHEN y = 'yes' THEN 1 ELSE 0 END) AS conversions    -- Количество успешно оформленных депозитов
+        FROM bank_full 
+        GROUP BY contact
+ )
+ SELECT  
+     contact, total, conversions,
+     ROUND(100.0 * conversions / total, 2) AS conversion_rate_contact    -- Коэффициент конверсии (%)
+FROM conversion_by_contact
+ORDER BY conversion_rate_contact DESC;    -- Сортировка по убыванию конверсии
+
+
+-- 4. Анализ конверсии по месяцам
+
+
+
+
