@@ -17,10 +17,10 @@ WITH conversion_by_job AS (
 )
 SELECT 
     job, total, conversions,     
-    ROUND(100.0 * conversions / total, 2) AS conversion_rate_pct,    -- Конверсия (%)
+    ROUND(100.0 * conversions / total, 2) AS conversion_rate_job,   -- Конверсия по профессиям (%)
     RANK() OVER (ORDER BY 1.0 * conversions / total DESC) AS rank_by_conversion    -- Рейтинг профессий по конверсии
 FROM conversion_by_job
-ORDER BY conversion_rate_pct DESC;     -- Сортировка по убыванию конверсии
+ORDER BY conversion_rate_job DESC;     -- Сортировка по убыванию конверсии
 
 
 -- 3. Анализ эффективности каналов связи
@@ -34,7 +34,7 @@ WITH conversion_by_contact AS (
  )
  SELECT  
      contact, total, conversions,
-     ROUND(100.0 * conversions / total, 2) AS conversion_rate_contact    -- Коэффициент конверсии (%)
+     ROUND(100.0 * conversions / total, 2) AS conversion_rate_contact    -- Конверсия по каналам связи (%)
 FROM conversion_by_contact
 ORDER BY conversion_rate_contact DESC;    -- Сортировка по убыванию конверсии
 
@@ -50,9 +50,10 @@ WITH conversion_by_month AS (
  )
  SELECT  
      month, total, conversions,
-     ROUND(100.0 * conversions / total, 2) AS conversion_rate_month    -- Коэффициент конверсии (%)       
+     ROUND(100.0 * conversions / total, 2) AS conversion_rate_month    -- Конверсия по месяцам (%)
 FROM conversion_by_month
 ORDER BY conversion_rate_month DESC;    -- Сортировка по убыванию конверсии
+
 
 
 
